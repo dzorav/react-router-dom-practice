@@ -1,26 +1,45 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useLoaderData, useSearchParams } from 'react-router-dom'
+import { getUsers } from '../api'
+
+export function loader() {
+
+    // var users = null
+
+    // fetch("https://jsonplaceholder.typicode.com/users")
+    //     .then(res => res.json())
+    //     .then(data => {
+    //         console.log({ data })
+    //         users = data
+    //     })
+
+    // return users
+
+    return getUsers()
+}
 
 const Users = () => {
 
     const [searchParams, setSearchParams] = useSearchParams("")
     // console.log({ searchParams: searchParams.get("type") })
 
-    const [users, setUsers] = useState([])
-    const [loading, setLoading] = useState(true)
+    // const [users, setUsers] = useState([])
+    // const [loading, setLoading] = useState(true)
 
 
+    const data = useLoaderData();
+    console.log({ test: data })
 
-    useEffect(() => {
-        fetch("https://jsonplaceholder.typicode.com/users")
-            .then(res => res.json())
-            .then(data => setUsers(data))
-            .finally(() => setLoading(false))
-    }, [])
+    // useEffect(() => {
+    //     fetch("https://jsonplaceholder.typicode.com/users")
+    //         .then(res => res.json())
+    //         .then(data => setUsers(data))
+    //         .finally(() => setLoading(false))
+    // }, [])
 
-    if (loading) return "Loading..."
+    // if (loading) return "Loading..."
 
-    let filteredUsers = searchParams.size > 0 ? users.filter(user => user.username === searchParams.get("username")) : users
+    let filteredUsers = searchParams.size > 0 ? data.filter(user => user.username === searchParams.get("username")) : data
 
     console.log({ filteredUsers })
 
